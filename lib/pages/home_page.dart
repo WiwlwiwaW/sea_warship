@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sea_warship/pages/game_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -26,9 +27,14 @@ class HomePage extends StatelessWidget {
                   height: 40,
                 ),
                 FilledButton.icon(
-                  onPressed: () {},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GamePage(),
+                    ),
+                  ),
                   icon: const Icon(Icons.add),
-                  label: const Text('Создать комнату'),
+                  label: const Text('Создать игру'),
                 ),
                 const SizedBox(
                   height: 10,
@@ -47,7 +53,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _displayDialog(BuildContext context) => showDialog(
+  _displayDialog(BuildContext context) async => showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
