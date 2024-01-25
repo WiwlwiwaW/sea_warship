@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/sea_warship.iml" filepath="$PROJECT_DIR$/.idea/sea_warship.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sea_warship.iml" filepath="$PROJECT_DIR$/sea_warship.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/sea_warship_android.iml" filepath="$PROJECT_DIR$/android/sea_warship_android.iml" />
     </modules>
   </component>
 </project>
