@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sea_warship/game_service.dart';
 import 'package:sea_warship/pages/home_page.dart';
 
 void main() {

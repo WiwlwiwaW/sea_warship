@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sea_warship/game_service.dart';
 import 'package:sea_warship/pages/game_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -27,12 +28,52 @@ class HomePage extends StatelessWidget {
                   height: 40,
                 ),
                 FilledButton.icon(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GamePage(),
-                    ),
-                  ),
+                  // onPressed: () => Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => GamePage(),
+                  //   ),
+                  // ),
+                  onPressed: () {
+                    List<List<int>> pole1Me = [
+                      [1, 1, 1, 1, 0, 0, 1, 1, 1, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                      [1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+                      [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ];
+
+                    List<List<int>> pole1You = [
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ];
+
+                    if (GameService.createShip(pole1You, 4, 4, 3) == 1){
+                      print("Корабль создан.");
+                    }
+                    if (GameService.createShip(pole1You, 4, 5, 3) == 1){
+                      print("Корабль создан.");
+                    }
+                    if (GameService.createShip(pole1You, 4, 6, 3) == 1){
+                      print("Корабль создан.");
+                    }
+                    for (int i = 0; i < 10; i++){
+                      print(pole1You[i]);
+                    }
+                  },
                   icon: const Icon(Icons.add),
                   label: const Text('Создать игру'),
                 ),

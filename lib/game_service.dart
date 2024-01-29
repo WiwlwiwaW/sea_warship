@@ -1,30 +1,12 @@
 class GameService {
   static List<List<List<int>>> shot(
       List<List<int>> x, List<List<int>> y, int a, int b) {
-    List<List<int>> xx = [];
-    List<List<int>> yy = [];
-    for (int i = 0; i < 10; i++) {
-      List<int> be1 = [];
-      List<int> be2 = [];
-      for (int j = 0; j < 10; j++) {
-        be1.add(x[i][j]);
-        be2.add(y[i][j]);
-      }
-      xx.add(be1);
-      yy.add(be2);
-    }
+    List<List<int>> xx = _deepCopy(x);
+    List<List<int>> yy = _deepCopy(y);
     if ((x[a][b] == 1)) {
       xx[a][b] = -1;
       yy[a][b] = -1;
-      List<List<int>> xxx = [];
-      for (int i = 0; i < 10; i++) {
-        List<int> be = [];
-        for (int j = 0; j < 10; j++) {
-          be.add(xx[i][j]);
-        }
-        xxx.add(be);
-      }
-      if (_killChek(xxx, a, b) == 0) {
+      if (_killChek(_deepCopy(xx), a, b) == 0) {
         _kill(xx, a, b);
         _kill(yy, a, b);
       }
@@ -131,36 +113,144 @@ class GameService {
       xx[a + 1][b + 1] = -3;
     }
   }
-}
 
-void main() {
-  List<List<int>> pole1Me = [
-    [1, 1, 1, 1, 0, 0, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ];
+  static int createShip(List<List<int>> p, int x, int y, int size){
+    if ((x > 0) && (y > 0)){
+      if ((p[x-1][y-1] == 1) || (p[x-1][y-1] == 2)){
+        return -1;
+      }
+    }
+    if ((x > 0) && (y < 9)){
+      if ((p[x-1][y+1] == 1) || (p[x-1][y+1] == 2)){
+        return -1;
+      }
+    }
+    if ((x < 9) && (y > 0)){
+      if ((p[x+1][y-1] == 1) || (p[x+1][y-1] == 2)){
+        return -1;
+      }
+    }
+    if ((x < 9) && (y < 9)){
+      if ((p[x+1][y+1] == 1) || (p[x+1][y+1] == 2)){
+        return -1;
+      }
+    }
+    if (x > 0){
+      if (p[x-1][y] == 1){
+        return -1;
+      }
+    }
+    if (x < 9){
+      if (p[x+1][y] == 1){
+        return -1;
+      }
+    }
+    if (y > 0){
+      if (p[x][y-1] == 1){
+        return -1;
+      }
+    }
+    if (y < 9){
+      if (p[x][y+1] == 1){
+        return -1;
+      }
+    }
+    int a = _sizeShip(_deepCopy(p), x, y, size-1);
+    if (a == 0){
+      p[x][y] = 1;
+      _privatShip(p, x, y);
+      return 1;
+    }
+    if (a > 0){
+      p[x][y] = 2;
+      return 2;
+    }
+    return -1;
+  }
 
-  List<List<int>> pole1You = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ];
+  static int _sizeShip(List<List<int>> p, int x, int y, int size){
+    p[x][y] = 3;
+    if (x > 0){
+      if (p[x-1][y] == 2){
+        size = _sizeShip(p, x-1, y, size-1);
+      } 
+    }
+    if (x < 9){
+      if (p[x+1][y] == 2){
+        size = _sizeShip(p, x+1, y, size-1);
+      } 
+    }
+    if (y > 0){
+      if (p[x][y-1] == 2){
+        size = _sizeShip(p, x, y-1, size-1);
+      } 
+    }
+    if (y < 9){
+      if (p[x][y+1] == 2){
+        size = _sizeShip(p, x, y+1, size-1);
+      } 
+    }
+    return size;
+  }
 
-  [pole1Me, pole1You] = GameService.shot(pole1Me, pole1You, 2, 4);
-  [pole1Me, pole1You] = GameService.shot(pole1Me, pole1You, 3, 4);
-  [pole1Me, pole1You] = GameService.shot(pole1Me, pole1You, 4, 4);
+  static _privatShip(List<List<int>> p, int x, int y){
+    p[x][y] = 1;
+    if (x > 0){
+      if (p[x-1][y] == 2){
+        _privatShip(p, x-1, y);
+      }
+    }
+    if (x < 9){
+      if (p[x+1][y] == 2){
+        _privatShip(p, x+1, y);
+      }
+    }
+    if (y > 0){
+      if (p[x][y-1] == 2){
+        _privatShip(p, x, y-1);
+      }
+    }
+    if (y < 9){
+      if (p[x][y+1] == 2){
+        _privatShip(p, x, y+1);
+      }
+    }
+  }
+
+  static List<List<int>> deleteShip(List<List<int>> p, int x, int y){
+    p[x][y] = 0;
+    if (x > 0){
+      if (p[x-1][y] == 1){
+        deleteShip(p, x-1, y);
+      }
+    }
+    if (x < 9){
+      if (p[x+1][y] == 1){
+        deleteShip(p, x+1, y);
+      }
+    }
+    if (y > 0){
+      if (p[x][y-1] == 1){
+        deleteShip(p, x, y-1);
+      }
+    }
+    if (y < 9){
+      if (p[x][y+1] == 1){
+        deleteShip(p, x, y+1);
+      }
+    }
+    return p;
+  }
+
+  static List<List<int>> _deepCopy(List<List<int>> x){
+    List<List<int>> xx = [];
+      for (int i = 0; i < 10; i++) {
+        List<int> be = [];
+        for (int j = 0; j < 10; j++) {
+          be.add(x[i][j]);
+        }
+        xx.add(be);
+      }
+    return xx;
+  }
 }
