@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sea_warship/enums.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -17,44 +19,45 @@ class _GamePageState extends State<GamePage> {
         children: [
           Center(
             child: _buildGameTable(
-              context,
-              [
-                [1, 1, 1, 0, 0, 0, 1, 1, 1, 0],
-                [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
-                [0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-              ],
-            ),
+                context,
+                [
+                  [1, 1, 1, 0, 0, -3, -1, -1, 1, 0],
+                  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 1, 0, -3, -2, 0, 0, -3, 0, 0],
+                  [0, 1, 0, 0, -2, 0, 0, 0, 0, 0],
+                  [0, 0, -3, 0, -2, 0, -3, 0, -3, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [-2, -2, 0, 0, 0, -3, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 1, 0, -2, 0, 1, 0, -2, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                ],
+                TableType.my),
           ),
           Center(
             child: _buildGameTable(
-              context,
-              [
-                [1, 1, 1, 1, 0, 0, 1, 1, 1, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                [1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-                [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-              ],
-            ),
+                context,
+                [
+                  [-1, -1, -1, 1, 0, 0, -2, -2, -2, 0],
+                  [0, 0, 0, 0, 0, -3, 0, 0, 0, 0],
+                  [1, 0, -3, 0, 1, 0, 0, 0, 0, 0],
+                  [1, 0, 1, 0, 1, 0, 0, -3, 0, 0],
+                  [0, -3, 1, 0, 1, -3, 0, 0, -3, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [-2, -2, 0, -3, 0, -3, 0, 0, 0, 0],
+                  [0, -3, -3, 0, 0, 0, 0, 0, -3, 0],
+                  [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                  [0, 0, 0, -3, 0, 0, 0, 0, 0, 0]
+                ],
+                TableType.enemy),
           ),
         ],
       ),
     );
   }
 
-  Table _buildGameTable(BuildContext context, List<List<int>> matrix) {
+  Table _buildGameTable(
+      BuildContext context, List<List<int>> matrix, TableType type) {
     double cellWidth = (MediaQuery.of(context).size.width -
             (100 * (MediaQuery.of(context).size.width / 400))) /
         20;
@@ -70,9 +73,10 @@ class _GamePageState extends State<GamePage> {
               debugPrint('$i $j');
             },
             child: Container(
-              color: matrix[i][j] == 0 ? Colors.transparent : Colors.black12,
+              color: getColorByNum(matrix[i][j], type),
               width: cellWidth,
               height: cellWidth,
+              child: matrix[i][j] == -3 ? Icon(CupertinoIcons.clear) : null,
             ),
           ),
         );
@@ -96,5 +100,18 @@ class _GamePageState extends State<GamePage> {
       children: table,
       border: TableBorder.all(width: 1, color: Colors.black54),
     );
+  }
+
+  static Color getColorByNum(int i, TableType type) {
+    switch (i) {
+      case 1:
+        return type == TableType.my ? Colors.black26 : Colors.transparent;
+      case -1:
+        return Colors.orangeAccent;
+      case -2:
+        return Colors.redAccent;
+      default:
+        return Colors.transparent;
+    }
   }
 }
