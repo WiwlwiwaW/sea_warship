@@ -61,13 +61,13 @@ class HomePage extends StatelessWidget {
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                     ];
 
-                    if (GameService.createShip(pole1You, 4, 4, 3) == 1){
+                    if (GameService.createShip(pole1You, 4, 4, 2) == 1){
+                      print("Корабль создан.");
+                    }
+                    if (GameService.createShip(pole1You, 4, 6, 2) == 1){
                       print("Корабль создан.");
                     }
                     if (GameService.createShip(pole1You, 4, 5, 3) == 1){
-                      print("Корабль создан.");
-                    }
-                    if (GameService.createShip(pole1You, 4, 6, 3) == 1){
                       print("Корабль создан.");
                     }
                     for (int i = 0; i < 10; i++){
