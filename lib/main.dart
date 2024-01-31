@@ -1,8 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:sea_warship/game_service.dart';
-import 'package:sea_warship/pages/home_page.dart';
+import 'dart:io';
 
-void main() {
+import 'package:flutter/material.dart';
+import 'package:sea_warship/pages/home_page.dart';
+import 'package:window_manager/window_manager.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  if (Platform.isWindows || Platform.isMacOS) {
+    WindowManager.instance.setMinimumSize(const Size(500, 400));
+  }
   runApp(const MainApp());
 }
 
