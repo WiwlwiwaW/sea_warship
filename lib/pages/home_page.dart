@@ -60,6 +60,21 @@ class HomePage extends StatelessWidget {
                   //     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                   //   ];
 
+// <<<<<<< HEAD
+//                     if (GameService.createShip(pole1You, 4, 4, 2) == 1){
+//                       print("Корабль создан.");
+//                     }
+//                     if (GameService.createShip(pole1You, 4, 6, 2) == 1){
+//                       print("Корабль создан.");
+//                     }
+//                     if (GameService.createShip(pole1You, 4, 5, 3) == 1){
+//                       print("Корабль создан.");
+//                     }
+//                     for (int i = 0; i < 10; i++){
+//                       print(pole1You[i]);
+//                     }
+//                   },
+// =======
                   //   if (GameService.createShip(pole1You, 4, 4, 3) == 1){
                   //     print("Корабль создан.");
                   //   }
@@ -73,6 +88,7 @@ class HomePage extends StatelessWidget {
                   //     print(pole1You[i]);
                   //   }
                   // },
+// >>>>>>> fcf039f906e05194c4bca3383b9d0dd9214f2188
                   icon: const Icon(Icons.add),
                   label: const Text('Создать игру'),
                 ),
