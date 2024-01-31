@@ -1,57 +1,68 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sea_warship/enums.dart';
 
-class GamePage extends StatefulWidget {
-  const GamePage({super.key});
+import '../blocs/game_bloc.dart';
 
-  @override
-  State<GamePage> createState() => _GamePageState();
-}
+class GamePage extends StatelessWidget {
+  GamePage({super.key});
 
-class _GamePageState extends State<GamePage> {
+  final String gameCode = Random().nextInt(999999).toString().padLeft(6, '0');
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Center(
-            child: _buildGameTable(
-                context,
-                [
-                  [1, 1, 1, 0, 0, -3, -1, -1, 1, 0],
-                  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 1, 0, -3, -2, 0, 0, -3, 0, 0],
-                  [0, 1, 0, 0, -2, 0, 0, 0, 0, 0],
-                  [0, 0, -3, 0, -2, 0, -3, 0, -3, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                  [-2, -2, 0, 0, 0, -3, 0, 0, 0, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                  [0, 0, 1, 0, -2, 0, 1, 0, -2, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                ],
-                TableType.my),
-          ),
-          Center(
-            child: _buildGameTable(
-                context,
-                [
-                  [-1, -1, -1, 1, 0, 0, -2, -2, -2, 0],
-                  [0, 0, 0, 0, 0, -3, 0, 0, 0, 0],
-                  [1, 0, -3, 0, 1, 0, 0, 0, 0, 0],
-                  [1, 0, 1, 0, 1, 0, 0, -3, 0, 0],
-                  [0, -3, 1, 0, 1, -3, 0, 0, -3, 0],
-                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                  [-2, -2, 0, -3, 0, -3, 0, 0, 0, 0],
-                  [0, -3, -3, 0, 0, 0, 0, 0, -3, 0],
-                  [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                  [0, 0, 0, -3, 0, 0, 0, 0, 0, 0]
-                ],
-                TableType.enemy),
-          ),
-        ],
+    return BlocProvider(
+      create: (context) => GameBloc(gameCode: gameCode),
+      child: BlocBuilder<GameBloc, GameState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(gameCode),
+            ),
+            body: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                  child: _buildGameTable(
+                      context,
+                      [
+                        [1, 1, 1, 0, 0, -3, -1, -1, 1, 0],
+                        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 0, -3, -2, 0, 0, -3, 0, 0],
+                        [0, 1, 0, 0, -2, 0, 0, 0, 0, 0],
+                        [0, 0, -3, 0, -2, 0, -3, 0, -3, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [-2, -2, 0, 0, 0, -3, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 1, 0, -2, 0, 1, 0, -2, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                      ],
+                      TableType.my),
+                ),
+                Center(
+                  child: _buildGameTable(
+                      context,
+                      [
+                        [-1, -1, -1, 1, 0, 0, -2, -2, -2, 0],
+                        [0, 0, 0, 0, 0, -3, 0, 0, 0, 0],
+                        [1, 0, -3, 0, 1, 0, 0, 0, 0, 0],
+                        [1, 0, 1, 0, 1, 0, 0, -3, 0, 0],
+                        [0, -3, 1, 0, 1, -3, 0, 0, -3, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [-2, -2, 0, -3, 0, -3, 0, 0, 0, 0],
+                        [0, -3, -3, 0, 0, 0, 0, 0, -3, 0],
+                        [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                        [0, 0, 0, -3, 0, 0, 0, 0, 0, 0]
+                      ],
+                      TableType.enemy),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -76,7 +87,12 @@ class _GamePageState extends State<GamePage> {
               color: getColorByNum(matrix[i][j], type),
               width: cellWidth,
               height: cellWidth,
-              child: matrix[i][j] == -3 ? Icon(CupertinoIcons.clear) : null,
+              child: matrix[i][j] == -3
+                  ? Icon(
+                      CupertinoIcons.clear,
+                      size: cellWidth * 0.75,
+                    )
+                  : null,
             ),
           ),
         );
